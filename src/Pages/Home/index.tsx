@@ -1,6 +1,6 @@
 import { Issue } from './components/Issue'
 import { Search } from './components/Search'
-import { Profile } from './components/UserCard'
+import { Profile } from './components/Profile'
 import { MainWrapper } from './styles'
 
 export function Home() {

@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { DefaultLayout } from '../layout/DefaultLayout'
 import { Home } from '../Pages/Home'
+import { IssueDetails } from '../Pages/IssueDetails'
 
 export function Router() {
   return (
@@ -12,6 +13,7 @@ export function Router() {
       */}
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/details" element={<IssueDetails />} />
       </Route>
     </Routes>
   )
