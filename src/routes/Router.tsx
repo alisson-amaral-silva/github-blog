@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { DefaultLayout } from '../layout/DefaultLayout'
+import { Home } from '../Pages/Home'
 
 export function Router() {
   return (
@@ -10,7 +11,7 @@ export function Router() {
           abaixo tiverem rotas especificas ficará da forma /admin/whatever
       */}
       <Route path="/" element={<DefaultLayout />}>
-        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Home />} />
       </Route>
     </Routes>
   )
