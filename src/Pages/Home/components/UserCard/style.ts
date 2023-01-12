@@ -23,7 +23,7 @@ export const ProfileDetails = styled.div`
   width: 100%;
 `
 
-export const Header = styled.header`
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
