@@ -20,6 +20,11 @@ export const SearchFormContainer = styled.form`
     &:focus {
       border: 1px solid ${(props) => props.theme.blue};
     }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
   }
 `
 

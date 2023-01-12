@@ -37,4 +37,7 @@ export const Content = styled.span`
   line-height: 1.6rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 `
