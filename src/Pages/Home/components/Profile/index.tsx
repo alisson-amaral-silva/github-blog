@@ -33,7 +33,7 @@ export function Profile() {
   async function fetchGithubProfile() {
     const response = await api.get('users/alisson-amaral-silva')
     const profileDetails = {
-      name: response.data.name,
+      name: response.data.login,
       img: response.data.avatar_url,
       company: response.data.company,
       github: response.data.html_url,

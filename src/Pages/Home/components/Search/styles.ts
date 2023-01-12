@@ -4,9 +4,35 @@ export const SearchFormContainer = styled.form`
   margin-top: 4.5rem;
   display: flex;
   flex-direction: column;
+`
+
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  strong {
+    font-size: 1.125rem;
+    color: ${(props) => props.theme['base-subtitle']};
+    line-height: 1.8rem;
+  }
+
+  span {
+    color: ${(props) => props.theme['base-span']};
+    font-size: 0.85rem;
+    line-height: 1.4rem;
+  }
+`
+
+export const InputWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   input {
     margin-top: 0.75rem;
-    flex: 1;
+    width: 15.5rem;
+    height: 3.375rem;
     border-radius: 6px;
     border: 1px solid ${(props) => props.theme['base-border']};
     background: ${(props) => props.theme['base-input']};
@@ -26,22 +52,29 @@ export const SearchFormContainer = styled.form`
       cursor: not-allowed;
     }
   }
-`
 
-export const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  button {
+    margin-top: 0.75rem;
+    border: 0;
+    padding: 1rem;
+    height: 3.375rem;
+    background: transparent;
+    border: 1px solid ${(props) => props.theme.blue};
+    color: ${(props) => props.theme.blue};
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
 
-  strong {
-    font-size: 1.125rem;
-    color: ${(props) => props.theme['base-subtitle']};
-    line-height: 1.8rem;
-  }
+    transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+    &:hover {
+      background: ${(props) => props.theme.blue};
+      border-color: ${(props) => props.theme.blue};
+      color: ${(props) => props.theme.white};
+    }
 
-  span {
-    color: ${(props) => props.theme['base-span']};
-    font-size: 0.85rem;
-    line-height: 1.4rem;
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
   }
 `
