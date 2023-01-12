@@ -16,10 +16,13 @@ export const GlobalStyle = createGlobalStyle`
         background: ${(props) => props.theme['base-background']};
         color: ${(props) => props.theme['base-text']};
         -webkit-font-smoothing: antialiased;
+        margin:0;
     }
     body, input,textarea, button,span {
         font-family: 'Nunito', sans-serif;
         font-weight: 400;
         font-size: 1rem;
+        
+        margin:0;
     }
 `
