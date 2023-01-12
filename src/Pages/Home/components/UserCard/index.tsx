@@ -7,7 +7,7 @@ import {
   Biography,
   Footer,
   Info,
-} from './style'
+} from './styles'
 import { api } from '../../../../lib/axios'
 import {
   faArrowUpRightFromSquare,

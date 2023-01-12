@@ -1,4 +1,4 @@
-import { Header, SearchFormContainer } from './style'
+import { Header, SearchFormContainer } from './styles'
 
 export function Search() {
   return (
