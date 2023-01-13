@@ -1,9 +1,14 @@
 import styled from 'styled-components'
+import media from 'styled-media-query'
 
 export const SearchFormContainer = styled.form`
   margin-top: 4.5rem;
   display: flex;
   flex-direction: column;
+  ${media.lessThan('large')`
+    margin-top: 0;
+    padding: 2rem;
+  `}
 `
 
 export const Header = styled.div`
@@ -29,8 +34,21 @@ export const InputWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  ${media.lessThan('small')`
+    flex-direction: column;
+  `}
+
+  ${media.lessThan('large')`
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+  `}
+
   input {
     margin-top: 0.75rem;
+    ${media.lessThan('large')`
+      width: 100%;
+    `}
     width: 15.5rem;
     height: 3.375rem;
     border-radius: 6px;
@@ -54,6 +72,9 @@ export const InputWrapper = styled.div`
   }
 
   button {
+    ${media.lessThan('small')`
+      width: 100%;
+    `}
     margin-top: 0.75rem;
     border: 0;
     padding: 1rem;

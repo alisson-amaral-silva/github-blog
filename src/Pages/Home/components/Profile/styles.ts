@@ -1,25 +1,41 @@
 import styled from 'styled-components'
+import media from 'styled-media-query'
 
 export const ProfileContainer = styled.div`
   width: 100%;
   height: 13.25rem;
-  img {
-    padding: 2rem 0 2rem 2.5rem;
-  }
 
   display: flex;
   background: ${(props) => props.theme['base-profile']};
+
   gap: 2rem;
   margin-top: -5rem;
   border-radius: 6px;
+
+  ${media.lessThan('small')`
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  `}
+
+  ${media.lessThan('large')`
+    margin-top: 2rem;
+  `}
 `
 
 export const Image = styled.img`
   border-radius: 50%;
+  padding: 2rem 0 2rem 2.5rem;
+  ${media.lessThan('small')`
+    display: none;
+  `}
 `
 
 export const ProfileDetails = styled.div`
   padding: 2.5rem 2.5rem 1.938rem 0;
+  ${media.lessThan('small')`
+    padding: 0;
+  `}
   width: 100%;
 `
 

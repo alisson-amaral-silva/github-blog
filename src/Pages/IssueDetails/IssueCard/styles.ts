@@ -1,14 +1,23 @@
 import styled from 'styled-components'
+import media from 'styled-media-query'
 
 export const IssueDetailsContainer = styled.div`
   width: 100%;
   height: 10.5rem;
+
+  ${media.lessThan('small')`
+    height: 18.5rem;
+  `}
 
   display: flex;
   background: ${(props) => props.theme['base-profile']};
   gap: 2rem;
   margin-top: -5rem;
   border-radius: 10px;
+
+  ${media.between('small', 'large')`
+      margin-top: 2rem;
+  `}
 `
 
 export const Content = styled.div`
@@ -59,6 +68,11 @@ export const Footer = styled.div`
   gap: 1.938rem;
   margin-top: 1.5rem;
   height: 26px;
+
+  ${media.lessThan('small')`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  `}
 `
 
 export const Info = styled.div`
@@ -77,4 +91,12 @@ export const Info = styled.div`
     color: ${(props) => props.theme['base-label']};
     margin-top: 0.2rem;
   }
+`
+
+export const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60vh;
 `

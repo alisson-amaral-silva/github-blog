@@ -40,22 +40,18 @@ export function Search() {
         <span>{issueQuantity} publicações</span>
       </Header>
       <InputWrapper>
-        <div>
-          <input
-            type="text"
-            placeholder="Digite seu username"
-            {...register('username')}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Digite o repo especifico"
-            {...register('repo')}
-            required
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Digite seu username"
+          {...register('username')}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Digite o repo especifico"
+          {...register('repo')}
+          required
+        />
         <input
           type="text"
           placeholder="Digite o nome da issue (Opcional)"

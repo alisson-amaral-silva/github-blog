@@ -26,6 +26,7 @@ interface DetailsProps {
 }
 
 interface IssueContextType {
+  loading: boolean
   issueDetails?: DetailsProps
   issueQuantity: number
   issues: IssueProps[]
@@ -52,6 +53,7 @@ export function IssuesProvider({ children }: IssuesProviderProps) {
   const [issueQuantity, setIssuesQuantities] = useState<number>(0)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const [issueDetails, setIssueDetails] = useState<DetailsProps | undefined>(
     undefined,
@@ -122,6 +124,8 @@ export function IssuesProvider({ children }: IssuesProviderProps) {
         const err = error as AxiosError
         setError(true)
         setErrorMessage(err.message)
+      } finally {
+        setLoading(false)
       }
     } else {
       setError(true)
@@ -131,6 +135,7 @@ export function IssuesProvider({ children }: IssuesProviderProps) {
   return (
     <IssuesContext.Provider
       value={{
+        loading,
         issues,
         issueQuantity,
         issueDetails,

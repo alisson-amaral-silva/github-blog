@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import media from 'styled-media-query'
 
 export const NotFoundWrapper = styled.div`
   display: flex;
@@ -10,6 +11,10 @@ export const NotFoundWrapper = styled.div`
 export const Image = styled.img`
   height: 22.5rem;
   width: 29.75rem;
+
+  ${media.lessThan('large')`
+      padding: 2rem;
+  `}
 `
 
 export const Title = styled.h1`
@@ -17,6 +22,10 @@ export const Title = styled.h1`
   font-size: 3rem;
   line-height: 3.9rem;
   color: ${(props) => props.theme['base-title']};
+  ${media.lessThan('large')`
+    text-align: center;
+    font-size: 2.5rem;
+  `}
 `
 
 export const ErrorMessage = styled.h1`
@@ -24,6 +33,10 @@ export const ErrorMessage = styled.h1`
   font-size: 2rem;
   line-height: 3.9rem;
   color: ${(props) => props.theme['base-title']};
+  ${media.lessThan('large')`
+    text-align: center;
+    font-size: 1.5rem;
+  `}
 `
 
 export const Button = styled.button`

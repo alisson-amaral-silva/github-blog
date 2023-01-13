@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import media from 'styled-media-query'
 
 export const Container = styled.div`
   display: flex;
@@ -9,6 +10,10 @@ export const Container = styled.div`
   border-radius: 10px;
   width: 26rem;
   height: 16.25rem;
+  ${media.lessThan('large')`
+      width: 100%;
+      height: 14.25rem;
+  `}
 `
 
 export const Header = styled.div`
@@ -32,6 +37,11 @@ export const Content = styled.span`
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+
+  ${media.lessThan('small')`
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  `}
 `
 
 export const LinkWrapper = styled.button`
