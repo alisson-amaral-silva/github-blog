@@ -31,7 +31,7 @@ export const Image = styled.img`
   `}
 `
 
-export const ProfileDetails = styled.div`
+export const ProfileDetailsWrapper = styled.div`
   padding: 2.5rem 2.5rem 1.938rem 0;
   ${media.lessThan('small')`
     padding: 0;
@@ -92,4 +92,11 @@ export const Info = styled.div`
     color: ${(props) => props.theme['base-label']};
     margin-top: 0.2rem;
   }
+`
+
+export const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `

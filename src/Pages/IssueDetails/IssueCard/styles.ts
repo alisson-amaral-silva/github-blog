@@ -7,6 +7,7 @@ export const IssueDetailsContainer = styled.div`
 
   ${media.lessThan('small')`
     height: 18.5rem;
+    margin-top: 2rem;
   `}
 
   display: flex;
@@ -79,6 +80,10 @@ export const Info = styled.div`
   display: flex;
   gap: 0.531rem;
   justify-content: center;
+
+  ${media.lessThan('small')`
+    justify-content: flex-start;
+  `}
   span {
     font-size: 1rem;
     line-height: 1.6rem;

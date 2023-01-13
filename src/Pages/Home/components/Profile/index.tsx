@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react'
-import {
-  ProfileContainer,
-  Image,
-  ProfileDetails,
-  Header,
-  Biography,
-  Footer,
-  Info,
-} from './styles'
-import { api } from '../../../../lib/axios'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowUpRightFromSquare,
   faBuilding,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { MoonLoader } from 'react-spinners'
+import { ProfileDetails } from '../../../../contexts/profile-details'
+import { useGithubState } from '../../../../lib/github'
+import {
+  Biography,
+  Footer,
+  Header,
+  Image,
+  Info,
+  LoadingWrapper,
+  ProfileContainer,
+  ProfileDetailsWrapper,
+} from './styles'
 
 interface ProfileDetailsProps {
   name: string
@@ -28,56 +30,47 @@ interface ProfileDetailsProps {
 }
 
 export function Profile() {
-  const [profile, setProfile] = useState<ProfileDetailsProps>()
-
-  async function fetchGithubProfile() {
-    const response = await api.get('users/alisson-amaral-silva')
-    const profileDetails = {
-      name: response.data.login,
-      img: response.data.avatar_url,
-      company: response.data.company,
-      github: response.data.html_url,
-      bio: response.data.bio,
-      username: response.data.login,
-      followers: response.data.followers,
-    }
-    setProfile(profileDetails)
-  }
-
-  useEffect(() => {
-    fetchGithubProfile()
-  }, [])
+  const { data, isFetching } = useGithubState('users/alisson-amaral-silva')
+  const user = data as ProfileDetails
 
   return (
     <ProfileContainer>
-      <Image src={profile?.img} alt="imagem do perfil do github" />
-      <ProfileDetails>
-        <Header>
-          <h1>{profile?.name}</h1>
-          <a href={profile?.github} target="_blank" rel="noreferrer">
-            github
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-          </a>
-        </Header>
-        {profile?.bio && <Biography>{profile.bio}</Biography>}
-        <Footer>
-          <Info>
-            <FontAwesomeIcon icon={faGithub} />
-            <span>{profile?.name}</span>
-          </Info>
-          {profile?.company && (
-            <Info>
-              <FontAwesomeIcon icon={faBuilding} />
-              <span>{profile?.name}</span>
-            </Info>
-          )}
+      {isFetching ? (
+        <LoadingWrapper>
+          <MoonLoader color="#3294F8" />
+        </LoadingWrapper>
+      ) : (
+        <>
+          <Image src={user?.avatar_url} alt="imagem do perfil do github" />
+          <ProfileDetailsWrapper>
+            <Header>
+              <h1>{user?.name}</h1>
+              <a href={user?.html_url} target="_blank" rel="noreferrer">
+                github
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+              </a>
+            </Header>
+            {user?.bio && <Biography>{user.bio}</Biography>}
+            <Footer>
+              <Info>
+                <FontAwesomeIcon icon={faGithub} />
+                <span>{user?.login}</span>
+              </Info>
+              {user?.company && (
+                <Info>
+                  <FontAwesomeIcon icon={faBuilding} />
+                  <span>{user.company}</span>
+                </Info>
+              )}
 
-          <Info>
-            <FontAwesomeIcon icon={faUserGroup} />
-            <span>{profile?.followers} followers</span>
-          </Info>
-        </Footer>
-      </ProfileDetails>
+              <Info>
+                <FontAwesomeIcon icon={faUserGroup} />
+                <span>{user?.followers} followers</span>
+              </Info>
+            </Footer>
+          </ProfileDetailsWrapper>
+        </>
+      )}
     </ProfileContainer>
   )
 }

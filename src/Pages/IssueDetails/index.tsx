@@ -6,17 +6,24 @@ import { Content, Container } from './styles'
 import { NotFound } from '../NotFound'
 import { LoadingWrapper } from './IssueCard/styles'
 import { MoonLoader } from 'react-spinners'
+import { useGithubState } from '../../lib/github'
+import { Issue } from '../../contexts/issue'
 
 export function IssueDetails() {
   const { issueId } = useParams()
-  const { fetchIssueById, loading, issueDetails, error, errorMessage } =
-    useContext(IssuesContext)
 
-  useEffect(() => {
-    fetchIssueById(Number(issueId))
-  }, [fetchIssueById, issueId])
+  const storedStateAsJSON = localStorage.getItem(
+    '@github-glob:user-state-1.0.0',
+  )
+  const parsedJson = JSON.parse(storedStateAsJSON!)
 
-  if (loading)
+  const { data, isFetching, error } = useGithubState(
+    `repos/${parsedJson?.username}/${parsedJson?.repository}/issues/${issueId}`,
+  )
+
+  const issue = data as Issue
+
+  if (isFetching)
     return (
       <LoadingWrapper>
         <MoonLoader color="#3294F8" />
@@ -25,25 +32,22 @@ export function IssueDetails() {
 
   return (
     <>
-      {!issueId || !issueDetails || error ? (
-        <NotFound message={errorMessage} />
+      {error ? (
+        <NotFound />
       ) : (
         <>
           <IssueCard
-            comments={issueDetails?.comments}
-            createdDate={issueDetails?.createdAt}
-            github={issueDetails?.githubUrl}
-            title={issueDetails?.title}
-            username={issueDetails?.user}
+            comments={issue?.comments}
+            createdDate={issue?.created_at}
+            github={issue?.html_url}
+            title={issue?.title}
+            username={issue?.user.login}
           />
-          {issueDetails?.content && (
+          {issue?.body && (
             <Container>
               <Content
                 dangerouslySetInnerHTML={{
-                  __html: issueDetails.content.replace(
-                    /(?:\r\n|\r|\n)/g,
-                    '<br>',
-                  ),
+                  __html: issue?.body.replace(/(?:\r\n|\r|\n)/g, '<br>'),
                 }}
               />
             </Container>

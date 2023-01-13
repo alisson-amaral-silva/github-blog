@@ -4,16 +4,21 @@ import { GlobalStyle } from './styles/global'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './routes/Router'
 import { IssuesProvider } from './contexts/IssuesContext'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
     <BrowserRouter>
-      <ThemeProvider theme={defaultTheme}>
-        <IssuesProvider>
-          <GlobalStyle />
-          <Router />
-        </IssuesProvider>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={defaultTheme}>
+          <IssuesProvider>
+            <GlobalStyle />
+            <Router />
+          </IssuesProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
     </BrowserRouter>
   )
 }
