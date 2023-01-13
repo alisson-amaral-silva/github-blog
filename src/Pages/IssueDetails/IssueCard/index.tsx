@@ -6,31 +6,25 @@ import {
   faComment,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect, useState } from 'react'
-import { api } from '../../../lib/axios'
-import { Content, Footer, Header, Info, IssueDetailsContainer } from './styles'
+import { formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
 import { Link } from 'react-router-dom'
-
-interface ProfileProps {
-  github: string
-  name: string
+import { Content, Footer, Header, Info, IssueDetailsContainer } from './styles'
+interface IssueCardProps {
+  title?: string
+  github?: string
+  username?: string
+  createdDate?: string
+  comments?: number
 }
 
-export function IssueCard() {
-  const [profile, setProfile] = useState<ProfileProps>()
-
-  async function fetchGithubProfile() {
-    const response = await api.get('users/alisson-amaral-silva')
-    const issueCardDetails = {
-      github: response.data.html_url,
-      name: response.data.name,
-    }
-    setProfile(issueCardDetails)
-  }
-
-  useEffect(() => {
-    fetchGithubProfile()
-  }, [])
+export function IssueCard({
+  title,
+  github,
+  username,
+  createdDate,
+  comments,
+}: IssueCardProps) {
   return (
     <IssueDetailsContainer>
       <Content>
@@ -40,25 +34,32 @@ export function IssueCard() {
               <FontAwesomeIcon icon={faChevronLeft} /> voltar
             </strong>
           </Link>
-          <a href={profile?.github} target="_blank" rel="noreferrer">
+          <a href={github} target="_blank" rel="noreferrer">
             ver no github
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
           </a>
         </Header>
-        <h1>JavaScript data types and data structures</h1>
+        <h1>{title}</h1>
         <Footer>
           <Info>
             <FontAwesomeIcon icon={faGithub} />
-            <span>{profile?.name}</span>
+            <span>{username}</span>
           </Info>
           <Info>
             <FontAwesomeIcon icon={faCalendarDay} />
-            <span>Há 1 dia</span>
+            {createdDate && (
+              <span>
+                {formatDistanceToNow(new Date(createdDate), {
+                  addSuffix: true,
+                  locale: ptBR,
+                })}
+              </span>
+            )}
           </Info>
 
           <Info>
             <FontAwesomeIcon icon={faComment} />
-            <span> 5 comentários</span>
+            <span>{comments} comentários</span>
           </Info>
         </Footer>
       </Content>

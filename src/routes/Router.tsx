@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { DefaultLayout } from '../layout/DefaultLayout'
 import { Home } from '../Pages/Home'
 import { IssueDetails } from '../Pages/IssueDetails'
+import { NotFound } from '../Pages/NotFound'
 
 export function Router() {
   return (
@@ -13,7 +14,10 @@ export function Router() {
       */}
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/details" element={<IssueDetails />} />
+        <Route path="/issue">
+          <Route path=":issueId" element={<IssueDetails />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   )

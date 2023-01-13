@@ -9,20 +9,12 @@ export const Container = styled.div`
   border-radius: 10px;
   width: 26rem;
   height: 16.25rem;
-  cursor: pointer;
 `
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-
-  strong {
-    font-size: 1.25rem;
-    color: ${(props) => props.theme['base-title']};
-    line-height: 2rem;
-    width: 15rem;
-  }
+  align-items: flex-start;
 
   span {
     color: ${(props) => props.theme['base-span']};
@@ -40,4 +32,27 @@ export const Content = styled.span`
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+`
+
+export const LinkWrapper = styled.button`
+  a:link {
+    text-decoration: none;
+  }
+  &:link {
+    text-decoration: none;
+  }
+  border: 0;
+  background: transparent;
+  width: 15rem;
+  text-align: left;
+
+  strong {
+    font-size: 1.25rem;
+    color: ${(props) => props.theme['base-title']};
+    line-height: 2rem;
+    &:hover {
+      color: ${(props) => props.theme.blue};
+      cursor: pointer;
+    }
+  }
 `

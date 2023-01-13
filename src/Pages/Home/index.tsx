@@ -16,6 +16,7 @@ export function Home() {
         {issues?.map((issue) => {
           return (
             <Issue
+              id={issue.id}
               key={issue.title}
               title={issue.title}
               description={issue.description}

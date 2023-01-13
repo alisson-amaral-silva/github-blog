@@ -19,7 +19,7 @@ export function Search() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting },
   } = useForm<SearchFormInput>({
     resolver: zodResolver(searchFormSchema),
   })
