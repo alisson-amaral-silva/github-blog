@@ -6,7 +6,7 @@ import { IssuesContext } from '../../contexts/IssuesContext'
 import { useContext } from 'react'
 
 export function Home() {
-  const { issues } = useContext(IssuesContext)
+  const { issues, error } = useContext(IssuesContext)
 
   return (
     <>
@@ -25,7 +25,7 @@ export function Home() {
           )
         })}
       </MainWrapper>
-      {!issues.length && (
+      {error && (
         <EmptyList>
           <span>
             Digite um <strong>nome de usuario</strong> e{' '}

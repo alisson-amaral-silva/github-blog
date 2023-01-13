@@ -26,6 +26,10 @@ export function Search() {
 
   async function handleSearchIssues(data: SearchFormInput) {
     const { username, repo, issueName } = data
+    const stateJSON = JSON.stringify({ repository: repo, username })
+
+    localStorage.setItem('@github-glob:user-state-1.0.0', stateJSON)
+
     fetchIssues(issueName, repo, username)
   }
 

@@ -19,6 +19,13 @@ export const Title = styled.h1`
   color: ${(props) => props.theme['base-title']};
 `
 
+export const ErrorMessage = styled.h1`
+  text-align: center;
+  font-size: 2rem;
+  line-height: 3.9rem;
+  color: ${(props) => props.theme['base-title']};
+`
+
 export const Button = styled.button`
   margin-top: 1.5rem;
   font-weight: 700;

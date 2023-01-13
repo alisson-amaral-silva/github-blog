@@ -7,17 +7,13 @@ import {
 } from 'react'
 import { api } from '../lib/axios'
 import { Issue } from './issue'
+import { AxiosError } from 'axios'
 
 export interface IssueProps {
   id: number
   description: string
   title: string
   createdAt: string
-}
-
-export interface SearchProps {
-  repo: string
-  username: string
 }
 
 interface DetailsProps {
@@ -30,20 +26,17 @@ interface DetailsProps {
 }
 
 interface IssueContextType {
-  search?: SearchProps
   issueDetails?: DetailsProps
   issueQuantity: number
   issues: IssueProps[]
+  error: boolean
+  errorMessage: string
   fetchIssues: (
     issueName?: string,
     repo?: string,
     username?: string,
   ) => Promise<void>
-  fetchIssueById: (
-    id: number,
-    repo?: string,
-    username?: string,
-  ) => Promise<void>
+  fetchIssueById: (id: number) => Promise<void>
 }
 
 export const IssuesContext = createContext<IssueContextType>(
@@ -57,7 +50,9 @@ interface IssuesProviderProps {
 export function IssuesProvider({ children }: IssuesProviderProps) {
   const [issues, setIssues] = useState<IssueProps[]>([])
   const [issueQuantity, setIssuesQuantities] = useState<number>(0)
-  const [search, setSearch] = useState<SearchProps | undefined>(undefined)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
   const [issueDetails, setIssueDetails] = useState<DetailsProps | undefined>(
     undefined,
   )
@@ -67,30 +62,32 @@ export function IssuesProvider({ children }: IssuesProviderProps) {
       if (!repo && !username) {
         setIssues([])
       } else {
-        const param = `${issueName}repo:${username}/${repo}`
+        try {
+          const param = `${issueName}repo:${username}/${repo}`
 
-        const { data } = await api.get('search/issues', {
-          params: {
-            q: param,
-          },
-        })
-        const searchParams = {
-          username,
-          repo,
+          const { data } = await api.get('search/issues', {
+            params: {
+              q: param,
+            },
+          })
+
+          const issueList = data.items.map((issue: Issue) => {
+            return {
+              id: issue.number,
+              description: issue.body,
+              title: issue.title,
+              createdAt: issue.created_at,
+            }
+          })
+
+          setIssues(issueList)
+          setIssuesQuantities(data.total_count)
+          setError(false)
+        } catch (error) {
+          const err = error as AxiosError
+          setError(true)
+          setErrorMessage(err.message)
         }
-        setSearch(searchParams)
-
-        const issueList = data.items.map((issue: Issue) => {
-          return {
-            id: issue.number,
-            description: issue.body,
-            title: issue.title,
-            createdAt: issue.created_at,
-          }
-        })
-
-        setIssues(issueList)
-        setIssuesQuantities(data.total_count)
       }
     },
     [],
@@ -101,29 +98,45 @@ export function IssuesProvider({ children }: IssuesProviderProps) {
   }, [])
 
   const fetchIssueById = useCallback(async (id: number) => {
-    console.log('search ', search)
-    const { data } = await api.get(
-      `repos/${search?.username}/${search?.repo}/issues/${id}`,
+    const storedStateAsJSON = localStorage.getItem(
+      '@github-glob:user-state-1.0.0',
     )
-    const details: DetailsProps = {
-      content: data.body,
-      title: data.title,
-      user: data.user.login,
-      createdAt: data.created_at,
-      comments: data.comments,
-      githubUrl: data.html_url,
+    if (storedStateAsJSON) {
+      try {
+        const { username, repository } = JSON.parse(storedStateAsJSON)
+        const { data } = await api.get(
+          `repos/${username}/${repository}/issues/${id}`,
+        )
+
+        const details: DetailsProps = {
+          content: data.body,
+          title: data.title,
+          user: data.user.login,
+          createdAt: data.created_at,
+          comments: data.comments,
+          githubUrl: data.html_url,
+        }
+        setIssueDetails(details)
+        setError(false)
+      } catch (error) {
+        const err = error as AxiosError
+        setError(true)
+        setErrorMessage(err.message)
+      }
+    } else {
+      setError(true)
     }
-    setIssueDetails(details)
   }, [])
 
   return (
     <IssuesContext.Provider
       value={{
         issues,
-        fetchIssues,
         issueQuantity,
-        search,
         issueDetails,
+        error,
+        errorMessage,
+        fetchIssues,
         fetchIssueById,
       }}
     >

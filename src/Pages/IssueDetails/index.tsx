@@ -8,16 +8,17 @@ import { NotFound } from '../NotFound'
 export function IssueDetails() {
   const { issueId } = useParams()
 
-  const { fetchIssueById, issueDetails } = useContext(IssuesContext)
+  const { fetchIssueById, issueDetails, error, errorMessage } =
+    useContext(IssuesContext)
 
   useEffect(() => {
     fetchIssueById(Number(issueId))
-  }, [issueId])
+  }, [fetchIssueById, issueId])
 
   return (
     <>
-      {!issueId || !issueDetails ? (
-        <NotFound />
+      {!issueId || !issueDetails || error ? (
+        <NotFound message={errorMessage} />
       ) : (
         <>
           <IssueCard
